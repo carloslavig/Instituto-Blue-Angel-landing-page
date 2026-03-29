@@ -148,39 +148,60 @@
   </div>
 
   <!-- EQUIPE -->
-  <section id="equipe" class="section-wrapper">
-    <div class="section-header">
-      <div class="section-tag">Equipe</div>
-      <h2 class="section-title">Quem cuida de perto</h2>
-      <p class="section-subtitle">Profissionais em constante capacitação, unidos pelo mesmo propósito: o bem-estar de cada criança.</p>
+<section id="equipe" class="section-wrapper">
+  <div class="section-header">
+    <div class="section-tag">Equipe</div>
+    <h2 class="section-title">Quem cuida de perto</h2>
+    <p class="section-subtitle">Profissionais em constante capacitação, unidos pelo mesmo propósito: o bem-estar de cada criança.</p>
+  </div>
+
+  <div class="team-placeholder">
+    <p>🕊️ As fotos e informações da equipe serão adicionadas aqui.<br>Cada profissional terá seu card com nome, área de atuação e breve bio.</p>
+  </div>
+
+  <!-- Carrossel -->
+  <div class="team-carousel-wrapper">
+    <button class="team-carousel-btn team-carousel-prev" id="teamPrev" aria-label="Anterior">&#8249;</button>
+
+    <div class="team-carousel-viewport" id="teamViewport">
+      <div class="team-carousel-track" id="teamTrack">
+
+        <!-- Repita este bloco para cada membro -->
+        <div class="team-card">
+          <div class="team-avatar">👩</div>
+          <div class="team-name">Nome do Profissional</div>
+          <div class="team-role">Psicóloga · CRP 00/0000</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨</div>
+          <div class="team-name">Nome do Profissional</div>
+          <div class="team-role">Fonoaudiólogo · CRFa 0-0000</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩</div>
+          <div class="team-name">Nome do Profissional</div>
+          <div class="team-role">T. Ocupacional · CREFITO 0</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👨</div>
+          <div class="team-name">Nome do Profissional</div>
+          <div class="team-role">Psicopedagogo · ABPp</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">👩</div>
+          <div class="team-name">Nome do Profissional</div>
+          <div class="team-role">Orientação Familiar · CFP</div>
+        </div>
+
+      </div>
     </div>
-    <div class="team-placeholder">
-      <p>🕊️ As fotos e informações da equipe serão adicionadas aqui.<br>Cada profissional terá seu card com nome, área de atuação e breve bio.</p>
-    </div>
-    <div class="team-grid">
-      <!-- Repita este bloco para cada membro. Substitua o emoji por <img> -->
-      <div class="team-card">
-        <div class="team-avatar">👩</div>
-        <div class="team-name">Nome do Profissional</div>
-        <div class="team-role">Psicóloga · CRP 00/0000</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar">👨</div>
-        <div class="team-name">Nome do Profissional</div>
-        <div class="team-role">Fonoaudiólogo · CRFa 0-0000</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar">👩</div>
-        <div class="team-name">Nome do Profissional</div>
-        <div class="team-role">T. Ocupacional · CREFITO 0</div>
-      </div>
-      <div class="team-card">
-        <div class="team-avatar">👨</div>
-        <div class="team-name">Nome do Profissional</div>
-        <div class="team-role">Psicopedagogo · ABPp</div>
-      </div>
-    </div>
-  </section>
+
+    <button class="team-carousel-btn team-carousel-next" id="teamNext" aria-label="Próximo">&#8250;</button>
+  </div>
+
+  <!-- Dots -->
+  <div class="team-carousel-dots" id="teamDots"></div>
+</section>
 
   <!-- GALERIA DE FOTOS -->
   <div class="gallery-section" id="fotos">

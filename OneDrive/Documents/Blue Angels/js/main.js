@@ -81,7 +81,134 @@ document.addEventListener('DOMContentLoaded', function () {
     observer.observe(el);
   });
 
-  /* ── 5. Seleção de valores de doação ───────────────────── */
+/* ── 5. Carrossel da Equipe ─────────────────────────────── */
+(function () {
+  var track    = document.getElementById('teamTrack');
+  var viewport = document.getElementById('teamViewport');
+  var dotsEl   = document.getElementById('teamDots');
+  var btnPrev  = document.getElementById('teamPrev');
+  var btnNext  = document.getElementById('teamNext');
+
+  if (!track) return;
+
+  var cards        = Array.from(track.children);
+  var current      = 0;
+  var autoplayTimer;
+  var AUTOPLAY_MS  = 4000;
+
+  /* Quantos cards cabem visíveis por vez */
+  function perView() {
+    var w = viewport.offsetWidth;
+    if (w <= 520) return 1;
+    if (w <= 860) return 2;
+    return 3;
+  }
+
+  /* Total de "páginas" (posições de parada) */
+  function maxIndex() {
+    return Math.max(0, cards.length - perView());
+  }
+
+  /* Largura de um card + gap em px */
+  function stepPx() {
+    var card = cards[0];
+    var gap  = parseFloat(getComputedStyle(track).gap) || 24;
+    return card.offsetWidth + gap;
+  }
+
+  /* Move o track */
+  function goTo(index) {
+    current = Math.max(0, Math.min(index, maxIndex()));
+    track.style.transform = 'translateX(-' + (current * stepPx()) + 'px)';
+    updateUI();
+  }
+
+  /* Atualiza botões e dots */
+  function updateUI() {
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current >= maxIndex();
+
+    var dots = dotsEl.querySelectorAll('.team-dot');
+    dots.forEach(function (d, i) { d.classList.toggle('active', i === current); });
+  }
+
+  /* Gera dots */
+  function buildDots() {
+    dotsEl.innerHTML = '';
+    var total = maxIndex() + 1;
+    for (var i = 0; i < total; i++) {
+      var btn = document.createElement('button');
+      btn.className   = 'team-dot';
+      btn.setAttribute('aria-label', 'Ir para slide ' + (i + 1));
+      btn.dataset.idx = i;
+      btn.addEventListener('click', function () {
+        goTo(parseInt(this.dataset.idx));
+        resetAutoplay();
+      });
+      dotsEl.appendChild(btn);
+    }
+    updateUI();
+  }
+
+  /* Autoplay */
+  function startAutoplay() {
+    autoplayTimer = setInterval(function () {
+      goTo(current >= maxIndex() ? 0 : current + 1);
+    }, AUTOPLAY_MS);
+  }
+
+  function resetAutoplay() {
+    clearInterval(autoplayTimer);
+    startAutoplay();
+  }
+
+  /* Botões */
+  btnPrev.addEventListener('click', function () { goTo(current - 1); resetAutoplay(); });
+  btnNext.addEventListener('click', function () { goTo(current + 1); resetAutoplay(); });
+
+  /* Teclado (quando o carrossel está em foco) */
+  viewport.setAttribute('tabindex', '0');
+  viewport.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft')  { goTo(current - 1); resetAutoplay(); }
+    if (e.key === 'ArrowRight') { goTo(current + 1); resetAutoplay(); }
+  });
+
+  /* Swipe mobile */
+  var touchStartX = 0;
+  track.addEventListener('touchstart', function (e) {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  track.addEventListener('touchend', function (e) {
+    var delta = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(delta) > 40) {
+      goTo(delta > 0 ? current + 1 : current - 1);
+      resetAutoplay();
+    }
+  }, { passive: true });
+
+  /* Pausa ao passar o mouse */
+  viewport.addEventListener('mouseenter', function () { clearInterval(autoplayTimer); });
+  viewport.addEventListener('mouseleave', startAutoplay);
+
+  /* Reconstrói dots ao redimensionar */
+  var resizeTimer;
+  window.addEventListener('resize', function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      goTo(Math.min(current, maxIndex()));
+      buildDots();
+    }, 150);
+  });
+
+  /* Init */
+  buildDots();
+  startAutoplay();
+}());
+/* ── fim carrossel equipe ─────────────────────────────────── */
+
+
+  /* ── 6. Seleção de valores de doação ───────────────────── */
   const donationOptions = document.querySelectorAll('.donation-option');
 
   donationOptions.forEach(function (option) {
@@ -98,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  /* ── 6. Formulário de contato ──────────────────────────── */
+  /* ── 7. Formulário de contato ──────────────────────────── */
   const contactForm    = document.getElementById('contactForm');
   const formFeedback   = document.getElementById('formFeedback');
 
@@ -195,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
-  /* ── 7. Máscara de telefone ─────────────────────────────── */
+  /* ── 8. Máscara de telefone ─────────────────────────────── */
   var telefoneInput = document.getElementById('telefone');
   if (telefoneInput) {
     telefoneInput.addEventListener('input', function () {
@@ -209,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* ── 8. Destaque do link ativo na navegação ─────────────── */
+  /* ── 9. Destaque do link ativo na navegação ─────────────── */
   var sections = document.querySelectorAll('section[id], div[id]');
   var navItems = document.querySelectorAll('.nav-links a[href^="#"]');
 

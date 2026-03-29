@@ -534,19 +534,36 @@ a:hover {
   line-height: 1.8;
 }
 
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
+/* Carrossel */
+.team-carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
+.team-carousel-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.team-carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.4s ease;
+  will-change: transform;
+}
+
+/* Os cards mantêm exatamente o mesmo visual de antes */
 .team-card {
+  flex: 0 0 calc((100% - 3rem) / 3); /* 3 visíveis no desktop */
   text-align: center;
   background: var(--surface);
   border-radius: var(--radius-lg);
   padding: 2rem 1.5rem;
   border: 1px solid var(--border);
   transition: transform var(--transition), box-shadow var(--transition);
+  user-select: none;
 }
 
 .team-card:hover {
@@ -566,9 +583,9 @@ a:hover {
   font-size: 32px;
   border: 3px solid var(--blue-200);
   overflow: hidden;
+  pointer-events: none;
 }
 
-/* Para imagens reais dentro do avatar: */
 .team-avatar img {
   width: 100%;
   height: 100%;
@@ -587,6 +604,80 @@ a:hover {
   font-size: 12px;
   color: var(--muted);
   font-weight: 400;
+}
+
+/* Botões prev / next */
+.team-carousel-btn {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--blue-200);
+  background: var(--surface);
+  color: var(--blue-600);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+  z-index: 2;
+}
+
+.team-carousel-btn:hover {
+  background: var(--blue-50);
+  border-color: var(--blue-400);
+  transform: scale(1.08);
+}
+
+.team-carousel-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+  transform: none;
+}
+
+/* Dots */
+.team-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.5rem;
+}
+
+.team-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue-200);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.team-dot.active {
+  background: var(--blue-400);
+  transform: scale(1.3);
+}
+
+/* Responsivo: 2 cards em tablet, 1 em mobile */
+@media (max-width: 860px) {
+  .team-card {
+    flex: 0 0 calc((100% - 1.5rem) / 2);
+  }
+}
+
+@media (max-width: 520px) {
+  .team-card {
+    flex: 0 0 100%;
+  }
+
+  .team-carousel-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
 }
 
 /* ── Galeria ──────────────────────────────────────────────── */
