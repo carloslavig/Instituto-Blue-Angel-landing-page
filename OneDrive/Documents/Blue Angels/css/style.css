@@ -292,18 +292,20 @@ a:hover {
   background: radial-gradient(circle, #5EA8DB, transparent);
   top: -100px;
   right: -80px;
+  animation: float-blob 20s infinite alternate ease-in-out;
 }
 
 .hero-blob-2 {
   width: 300px;
   height: 300px;
   background: radial-gradient(circle, #A0CAEE, transparent);
-  bottom: 50px;
-  left: -60px;
+  bottom: 50px; /* Ajustado para ser mais visível */
+  left: -60px; /* Ajustado para ser mais visível */
+  animation: float-blob 15s infinite alternate-reverse ease-in-out;
 }
 
 .hero-content {
-  position: relative;
+  position: relative; /* Garante que o conteúdo fique acima dos blobs */
   z-index: 1;
   max-width: 680px;
   animation: fadeUp 0.8s ease both;
@@ -489,6 +491,8 @@ a:hover {
 .service-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
+  border-color: var(--blue-400);
+  background: linear-gradient(to bottom right, #ffffff, #f9fcff);
 }
 
 .service-icon {
@@ -880,6 +884,22 @@ a:hover {
   font-style: italic;
 }
 
+/* Botão Copiar PIX */
+.btn-copy {
+  background: var(--blue-50);
+  border: 1px solid var(--blue-200);
+  color: var(--blue-600);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-weight: 500;
+}
+.btn-copy:hover {
+  background: var(--blue-400);
+  color: #fff;
+}
 /* ── Contato ──────────────────────────────────────────────── */
 .contact-grid {
   display: grid;
@@ -1095,6 +1115,12 @@ footer {
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-blob {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(40px, -30px) scale(1.1); }
+  100% { transform: translate(-20px, 20px) scale(0.9); }
 }
 
 .fade-in {

@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="../Blue Angels/css/style.css" />
 </head>
 <body>
 
@@ -45,25 +45,25 @@
     <div class="hero-blob hero-blob-2"></div>
     <div class="hero-content">
       <div class="hero-badge">🌟 Duque de Caxias, RJ</div>
-      <h1>Cuidar, incluir e <em>transformar vidas</em></h1>
+      <h1>Cuidar, incluir e <em id="typewriter">transformar vidas</em></h1>
       <p class="hero-desc">
         Atendimento terapêutico multidisciplinar para crianças atípicas com ênfase no TEA — com amor, ciência e compromisso com cada família.
       </p>
       <div class="hero-actions">
         <a href="#contato" class="btn-primary">Agende uma visita</a>
-        <a href="#sobre" class="btn-outline">Conheça o Instituto</a>
+        <a href="#sobre" class="btn-outline">Nossa História</a>
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-num">+100</div>
+          <div class="stat-num" data-target="100" data-prefix="+">0</div>
           <div class="stat-label">Crianças atendidas</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">5+</div>
+          <div class="stat-num" data-target="5" data-suffix="+">0</div>
           <div class="stat-label">Especialidades</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">100%</div>
+          <div class="stat-num" data-target="100" data-suffix="%">0</div>
           <div class="stat-label">Dedicação às famílias</div>
         </div>
       </div>
@@ -286,21 +286,30 @@
           <a href="#contato" class="btn-primary btn-block">Quero ser voluntário(a)</a>
           <div class="pix-card">
             <div class="pix-label">Chave Pix</div>
-            <!-- ⚠️ SUBISTITUIR PIX ANTES DO LANÇAMENTO DO SITE-->
-            <div class="pix-key">**********@EMAIL.COM</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div class="pix-label">Chave Pix (E-mail)</div>
+                <div class="pix-key" id="pixKey">contato@institutoblueangels.org.br</div>
+              </div>
+              <button class="btn-copy" onclick="copyToClipboard('pixKey', this)">Copiar</button>
+            </div>
             <div class="pix-note">⚠️ Insirir a chave Pix real antes de publicar</div>
           </div>
           <div class="pix-card">
             <div class="pix-label">CNPJ</div>
-            <!-- ⚠️ SUBSTITUIR PIX ANTES DO LANÇAMENTO DO SITE-->
-            <div class="pix-key">XX.XXX.XXX/0001-XX</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div class="pix-label">CNPJ</div>
+                <div class="pix-key" id="pixCnpj">XX.XXX.XXX/0001-XX</div>
+              </div>
+              <button class="btn-copy" onclick="copyToClipboard('pixCnpj', this)">Copiar</button>
+            </div>
             <div class="pix-note">⚠️ Insirir o CNPJ oficial do instituto</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
   <!-- CONTATO -->
   <section id="contato" class="section-wrapper">
     <div class="section-header">
@@ -433,6 +442,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="../Blue Angels/js/main.js"></script>
 </body>
 </html>
