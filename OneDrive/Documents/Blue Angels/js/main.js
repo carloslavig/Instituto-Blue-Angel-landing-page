@@ -359,4 +359,84 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /* ── 10. Efeito Typewriter no Hero ─────────────────────── */
+  const typewriter = document.getElementById('typewriter');
+  if (typewriter) {
+    const words = ["transformar vidas", "acolher famílias", "mudar futuros", "incluir com amor"];
+    let wordIdx = 0;
+    let charIdx = 0;
+    let isDeleting = false;
+
+    function type() {
+      const currentWord = words[wordIdx];
+      if (isDeleting) {
+        typewriter.textContent = currentWord.substring(0, charIdx - 1);
+        charIdx--;
+      } else {
+        typewriter.textContent = currentWord.substring(0, charIdx + 1);
+        charIdx++;
+      }
+
+      let typeSpeed = isDeleting ? 50 : 100;
+      if (!isDeleting && charIdx === currentWord.length) {
+        isDeleting = true;
+        typeSpeed = 2000; // Pausa no final da palavra
+      } else if (isDeleting && charIdx === 0) {
+        isDeleting = false;
+        wordIdx = (wordIdx + 1) % words.length;
+        typeSpeed = 500;
+      }
+      setTimeout(type, typeSpeed);
+    }
+    type();
+  }
+
+  /* ── 11. Contador de Estatísticas ──────────────────────── */
+  const statsSection = document.querySelector('.hero-stats');
+  const stats = document.querySelectorAll('.stat-num');
+  let started = false;
+
+  const startCount = () => {
+    stats.forEach(stat => {
+      const target = parseInt(stat.dataset.target);
+      const prefix = stat.dataset.prefix || '';
+      const suffix = stat.dataset.suffix || '';
+      let count = 0;
+      const increment = target / 50;
+      const timer = setInterval(() => {
+        count += increment;
+        if (count >= target) {
+          stat.textContent = prefix + target + suffix;
+          clearInterval(timer);
+        } else {
+          stat.textContent = prefix + Math.floor(count) + suffix;
+        }
+      }, 30);
+    });
+  };
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !started) {
+      startCount();
+      started = true;
+    }
+  }, { threshold: 0.5 });
+  if (statsSection) statsObserver.observe(statsSection);
+
 });
+
+/* ── 12. Função de Copiar (Global) ──────────────────────── */
+function copyToClipboard(elementId, btn) {
+  const text = document.getElementById(elementId).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const originalText = btn.innerText;
+    btn.innerText = 'Copiado!';
+    btn.style.background = '#1a7a3c';
+    btn.style.color = '#fff';
+    setTimeout(() => {
+      btn.innerText = originalText;
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
