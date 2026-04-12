@@ -274,7 +274,8 @@ a:hover {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #EBF4FF 0%, #F4F8FD 40%, #D6ECFB 100%);
+  background: linear-gradient(135deg, rgba(235, 244, 255, 0.8) 0%, rgba(244, 248, 253, 0.8) 40%, rgba(214, 236, 251, 0.8) 100%), 
+              url('../css/blue_angels.png') center/cover no-repeat;
   z-index: 0;
 }
 
@@ -481,18 +482,59 @@ a:hover {
 }
 
 .service-card {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  border: 1px solid var(--border);
-  transition: transform var(--transition), box-shadow var(--transition);
+  background: transparent;
+  border: none;
+  padding: 0;
+  perspective: 1000px;
+  height: 250px;
 }
 
 .service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--blue-400);
-  background: linear-gradient(to bottom right, #ffffff, #f9fcff);
+  transform: none;
+  box-shadow: none;
+}
+
+.service-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.service-card:hover .service-card-inner {
+  transform: rotateY(180deg);
+}
+
+.service-card-front, .service-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-card-front {
+  background: var(--surface);
+}
+
+.service-card-back {
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-400));
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+.service-card-back .service-desc {
+  color: #fff;
+  margin: 0;
 }
 
 .service-icon {
