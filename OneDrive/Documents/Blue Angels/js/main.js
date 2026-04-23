@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ── 4. Animação de entrada (fade-in ao rolar) ─────────── */
   const fadeEls = document.querySelectorAll(
     '.service-card, .team-card, .about-grid, .contact-item, ' +
-    '.gallery-item, .donation-option, .pillar'
+    '.gallery-item, .donation-option, .pillar, .partner-card'
   );
 
   // Adiciona a classe base a todos os elementos animáveis

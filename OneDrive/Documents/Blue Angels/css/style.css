@@ -807,6 +807,52 @@ a:hover {
   z-index: 1;
 }
 
+/* ── Parcerias ────────────────────────────────────────────── */
+.partners-section {
+  background: var(--soft);
+  border-bottom: 1px solid var(--border);
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.partner-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.partner-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.partner-icon {
+  font-size: 32px;
+  margin-bottom: 1rem;
+}
+
+.partner-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--blue-800);
+  margin-bottom: 0.5rem;
+}
+
+.partner-desc {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
 /* ── Doações ──────────────────────────────────────────────── */
 .donation-section {
   background: var(--surface);
