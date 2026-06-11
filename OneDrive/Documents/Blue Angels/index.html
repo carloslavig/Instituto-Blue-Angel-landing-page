@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="../Blue Angels/css/style.css" />
 </head>
 <body>
 
@@ -33,6 +33,7 @@
       <li><a href="#servicos">Serviços</a></li>
       <li><a href="#equipe">Equipe</a></li>
       <li><a href="#fotos">Fotos</a></li>
+      <li><a href="#parcerias">Parcerias</a></li>
       <li><a href="#doacoes">Doações</a></li>
       <li><a href="#contato" class="nav-cta">Contato</a></li>
     </ul>
@@ -45,25 +46,25 @@
     <div class="hero-blob hero-blob-2"></div>
     <div class="hero-content">
       <div class="hero-badge">🌟 Duque de Caxias, RJ</div>
-      <h1>Cuidar, incluir e <em>transformar vidas</em></h1>
+      <h1>Cuidar, incluir e <em id="typewriter">transformar vidas</em></h1>
       <p class="hero-desc">
         Atendimento terapêutico multidisciplinar para crianças atípicas com ênfase no TEA — com amor, ciência e compromisso com cada família.
       </p>
       <div class="hero-actions">
         <a href="#contato" class="btn-primary">Agende uma visita</a>
-        <a href="#sobre" class="btn-outline">Conheça o Instituto</a>
+        <a href="#sobre" class="btn-outline">Nossa História</a>
       </div>
       <div class="hero-stats">
         <div class="stat-item">
-          <div class="stat-num">+100</div>
+          <div class="stat-num" data-target="100" data-prefix="+">0</div>
           <div class="stat-label">Crianças atendidas</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">5+</div>
+          <div class="stat-num" data-target="5" data-suffix="+">0</div>
           <div class="stat-label">Especialidades</div>
         </div>
         <div class="stat-item">
-          <div class="stat-num">100%</div>
+          <div class="stat-num" data-target="100" data-suffix="%">0</div>
           <div class="stat-label">Dedicação às famílias</div>
         </div>
       </div>
@@ -85,6 +86,7 @@
       <div class="about-text">
         <div class="section-tag">Sobre nós</div>
         <h2 class="section-title">Um lar de cuidado e inclusão</h2>
+        <p><strong>Missão: "Cuidando com Amor, Transformando com Ciência"</strong></p>
         <p>
           O Instituto Blue Angel's é uma organização dedicada ao atendimento terapêutico multidisciplinar de crianças atípicas, com ênfase no Transtorno do Espectro Autista (TEA) e outras condições do neurodesenvolvimento.
         </p>
@@ -114,34 +116,70 @@
       </div>
       <div class="services-grid">
         <div class="service-card">
-          <div class="service-icon">🧠</div>
-          <div class="service-name">Psicologia e ABA</div>
-          <p class="service-desc">Intervenção comportamental baseada em evidências para crianças no espectro autista e outras condições.</p>
+          <div class="service-card-inner">
+            <div class="service-card-front">
+              <div class="service-icon">🧠</div>
+              <div class="service-name">Psicologia e ABA</div>
+            </div>
+            <div class="service-card-back">
+              <p class="service-desc">Intervenção comportamental baseada em evidências para crianças no espectro autista e outras condições.</p>
+            </div>
+          </div>
         </div>
         <div class="service-card">
-          <div class="service-icon">🗣️</div>
-          <div class="service-name">Fonoaudiologia</div>
-          <p class="service-desc">Acompanhamento da comunicação, linguagem, fala e deglutição com abordagem individualizada.</p>
+          <div class="service-card-inner">
+            <div class="service-card-front">
+              <div class="service-icon">🗣️</div>
+              <div class="service-name">Fonoaudiologia</div>
+            </div>
+            <div class="service-card-back">
+              <p class="service-desc">Acompanhamento da comunicação, linguagem, fala e deglutição com abordagem individualizada.</p>
+            </div>
+          </div>
         </div>
         <div class="service-card">
-          <div class="service-icon">🤸</div>
-          <div class="service-name">Terapia Ocupacional</div>
-          <p class="service-desc">Estímulo às habilidades motoras, sensoriais e de autonomia para o dia a dia da criança.</p>
+          <div class="service-card-inner">
+            <div class="service-card-front">
+              <div class="service-icon">🤸</div>
+              <div class="service-name">Terapia Ocupacional</div>
+            </div>
+            <div class="service-card-back">
+              <p class="service-desc">Estímulo às habilidades motoras, sensoriais e de autonomia para o dia a dia da criança.</p>
+            </div>
+          </div>
         </div>
         <div class="service-card">
-          <div class="service-icon">🎨</div>
-          <div class="service-name">Psicopedagogia</div>
-          <p class="service-desc">Suporte ao processo de aprendizagem e desenvolvimento cognitivo com metodologias lúdicas.</p>
+          <div class="service-card-inner">
+            <div class="service-card-front">
+              <div class="service-icon">🎨</div>
+              <div class="service-name">Psicopedagogia</div>
+            </div>
+            <div class="service-card-back">
+              <p class="service-desc">Suporte ao processo de aprendizagem e desenvolvimento cognitivo com metodologias lúdicas.</p>
+            </div>
+          </div>
         </div>
         <div class="service-card">
-          <div class="service-icon">👨‍👩‍👧</div>
-          <div class="service-name">Orientação Familiar</div>
-          <p class="service-desc">Apoio contínuo às famílias para que se tornem protagonistas do desenvolvimento de seus filhos.</p>
+          <div class="service-card-inner">
+            <div class="service-card-front">
+              <div class="service-icon">👨‍👩‍👧</div>
+              <div class="service-name">Orientação Familiar</div>
+            </div>
+            <div class="service-card-back">
+              <p class="service-desc">Apoio contínuo às famílias para que se tornem protagonistas do desenvolvimento de seus filhos.</p>
+            </div>
+          </div>
         </div>
         <div class="service-card">
-          <div class="service-icon">🌐</div>
-          <div class="service-name">Inclusão Social</div>
-          <p class="service-desc">Ações e parcerias que ampliam a participação da criança na comunidade e na escola.</p>
+          <div class="service-card-inner">
+            <div class="service-card-front">
+              <div class="service-icon">🌐</div>
+              <div class="service-name">Inclusão Social</div>
+            </div>
+            <div class="service-card-back">
+              <p class="service-desc">Ações e parcerias que ampliam a participação da criança na comunidade e na escola.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -241,6 +279,42 @@
     </div>
   </div>
 
+  <!-- PARCERIAS -->
+  <div class="partners-section" id="parcerias">
+    <div class="section-wrapper">
+      <div class="section-header">
+        <div class="section-tag">Rede de Apoio</div>
+        <h2 class="section-title">Parcerias Estratégicas</h2>
+        <p class="section-subtitle">Unimos forças com instituições e profissionais qualificados para oferecer o melhor suporte às nossas famílias.</p>
+      </div>
+      <div class="partners-grid">
+        <div class="partner-card">
+          <!-- <div class="partner-icon"></div> -->
+          <h3 class="partner-name">Santa Cannabis</h3>
+          <p class="partner-desc">Programa de acesso a tratamentos com canabidiol.</p>
+        </div>
+
+        <div class="partner-card">
+          <!-- <div class="partner-icon"></div> -->
+          <h3 class="partner-name">Grupo Capacite</h3>
+          <p class="partner-desc">Carolina Salviano - Capacitação profissional.</p>
+        </div>
+
+        <div class="partner-card">
+          <!-- <div class="partner-icon"></div> -->
+          <h3 class="partner-name">Instituto Hosana Doria</h3>
+          <p class="partner-desc">Parceria em educação inclusiva.</p>
+        </div>
+
+        <div class="partner-card">
+          <!-- <div class="partner-icon"></div> -->
+          <h3 class="partner-name">Adv. Marcus Souza</h3>
+          <p class="partner-desc">Assessoria jurídica especializada.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- DOAÇÕES -->
   <div class="donation-section" id="doacoes">
     <div class="section-wrapper">
@@ -286,21 +360,30 @@
           <a href="#contato" class="btn-primary btn-block">Quero ser voluntário(a)</a>
           <div class="pix-card">
             <div class="pix-label">Chave Pix</div>
-            <!-- ⚠️ SUBISTITUIR PIX ANTES DO LANÇAMENTO DO SITE-->
-            <div class="pix-key">**********@EMAIL.COM</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div class="pix-label">Chave Pix (E-mail)</div>
+                <div class="pix-key" id="pixKey">contato@institutoblueangels.org.br</div>
+              </div>
+              <button class="btn-copy" onclick="copyToClipboard('pixKey', this)">Copiar</button>
+            </div>
             <div class="pix-note">⚠️ Insirir a chave Pix real antes de publicar</div>
           </div>
           <div class="pix-card">
             <div class="pix-label">CNPJ</div>
-            <!-- ⚠️ SUBSTITUIR PIX ANTES DO LANÇAMENTO DO SITE-->
-            <div class="pix-key">XX.XXX.XXX/0001-XX</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <div class="pix-label">CNPJ</div>
+                <div class="pix-key" id="pixCnpj">XX.XXX.XXX/0001-XX</div>
+              </div>
+              <button class="btn-copy" onclick="copyToClipboard('pixCnpj', this)">Copiar</button>
+            </div>
             <div class="pix-note">⚠️ Insirir o CNPJ oficial do instituto</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
   <!-- CONTATO -->
   <section id="contato" class="section-wrapper">
     <div class="section-header">
@@ -433,6 +516,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="../Blue Angels/js/main.js"></script>
 </body>
 </html>

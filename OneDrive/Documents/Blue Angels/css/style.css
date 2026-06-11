@@ -274,7 +274,8 @@ a:hover {
 .hero-bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, #EBF4FF 0%, #F4F8FD 40%, #D6ECFB 100%);
+  background: linear-gradient(135deg, rgba(235, 244, 255, 0.8) 0%, rgba(244, 248, 253, 0.8) 40%, rgba(214, 236, 251, 0.8) 100%), 
+              url('../css/blue_angels.png') center/cover no-repeat;
   z-index: 0;
 }
 
@@ -292,18 +293,20 @@ a:hover {
   background: radial-gradient(circle, #5EA8DB, transparent);
   top: -100px;
   right: -80px;
+  animation: float-blob 20s infinite alternate ease-in-out;
 }
 
 .hero-blob-2 {
   width: 300px;
   height: 300px;
   background: radial-gradient(circle, #A0CAEE, transparent);
-  bottom: 50px;
-  left: -60px;
+  bottom: 50px; /* Ajustado para ser mais visível */
+  left: -60px; /* Ajustado para ser mais visível */
+  animation: float-blob 15s infinite alternate-reverse ease-in-out;
 }
 
 .hero-content {
-  position: relative;
+  position: relative; /* Garante que o conteúdo fique acima dos blobs */
   z-index: 1;
   max-width: 680px;
   animation: fadeUp 0.8s ease both;
@@ -479,16 +482,59 @@ a:hover {
 }
 
 .service-card {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  border: 1px solid var(--border);
-  transition: transform var(--transition), box-shadow var(--transition);
+  background: transparent;
+  border: none;
+  padding: 0;
+  perspective: 1000px;
+  height: 250px;
 }
 
 .service-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
+  transform: none;
+  box-shadow: none;
+}
+
+.service-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.service-card:hover .service-card-inner {
+  transform: rotateY(180deg);
+}
+
+.service-card-front, .service-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-card-front {
+  background: var(--surface);
+}
+
+.service-card-back {
+  background: linear-gradient(135deg, var(--blue-600), var(--blue-400));
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+.service-card-back .service-desc {
+  color: #fff;
+  margin: 0;
 }
 
 .service-icon {
@@ -761,6 +807,52 @@ a:hover {
   z-index: 1;
 }
 
+/* ── Parcerias ────────────────────────────────────────────── */
+.partners-section {
+  background: var(--soft);
+  border-bottom: 1px solid var(--border);
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.partner-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.partner-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.partner-icon {
+  font-size: 32px;
+  margin-bottom: 1rem;
+}
+
+.partner-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--blue-800);
+  margin-bottom: 0.5rem;
+}
+
+.partner-desc {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+}
+
 /* ── Doações ──────────────────────────────────────────────── */
 .donation-section {
   background: var(--surface);
@@ -880,6 +972,22 @@ a:hover {
   font-style: italic;
 }
 
+/* Botão Copiar PIX */
+.btn-copy {
+  background: var(--blue-50);
+  border: 1px solid var(--blue-200);
+  color: var(--blue-600);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-weight: 500;
+}
+.btn-copy:hover {
+  background: var(--blue-400);
+  color: #fff;
+}
 /* ── Contato ──────────────────────────────────────────────── */
 .contact-grid {
   display: grid;
@@ -1095,6 +1203,12 @@ footer {
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-blob {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(40px, -30px) scale(1.1); }
+  100% { transform: translate(-20px, 20px) scale(0.9); }
 }
 
 .fade-in {
