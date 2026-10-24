@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>B.R.A.N.I.A.C</title>
+<style>
+html,body{margin:0;height:100%;background:#050d14;color:#cfeffd;font:16px/1.5 system-ui,sans-serif}
+#tela{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;text-align:center}
+h1{color:#2fe3ff;letter-spacing:6px;font-size:22px;margin:0 0 6px}p{color:#8fb7c9;max-width:340px}
+input{width:100%;max-width:340px;box-sizing:border-box;background:#06121b;border:1px solid #0e4a63;border-radius:10px;color:#cfeffd;font:700 22px ui-monospace,monospace;letter-spacing:2px;text-align:center;padding:14px;text-transform:uppercase}
+button{margin-top:14px;background:#2fe3ff;color:#031018;border:0;border-radius:10px;padding:13px 26px;font-weight:700;font-size:16px}
+#msg{margin-top:16px;min-height:44px;color:#8fb7c9}.erro{color:#ff8b8b}
+.anel{width:70px;height:70px;border:3px solid #0e4a63;border-top-color:#2fe3ff;border-radius:50%;animation:g 1s linear infinite;margin-bottom:18px}@keyframes g{to{transform:rotate(360deg)}}
+</style></head><body>
+<div id="tela"><div class="anel" id="anel" style="display:none"></div><h1>B.R.A.N.I.A.C</h1>
+<p id="intro">Digite o código que aparece no seu notebook (Braniac → Acesso remoto) para conectar direto, de aparelho para aparelho.</p>
+<input id="cod" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19" autocomplete="off" autocapitalize="characters">
+<button id="ir">Conectar</button><div id="msg"></div></div>
+<script>
+(()=>{   // IIFE: nada de const global (a interface do Braniac e escrita por cima e tem os proprios $, etc.)
+const $=s=>document.querySelector(s), enc=new TextEncoder(), dec=new TextDecoder();
+const SINAL='https://ntfy.sh', STUN='stun:stun.l.google.com:19302';
+const hex=b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('');
+const b64=u8=>{let s='';for(let i=0;i<u8.length;i+=0x8000)s+=String.fromCharCode.apply(null,u8.subarray(i,i+0x8000));return btoa(s)};
+const unb64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+function msg(t,erro){$('#msg').textContent=t;$('#msg').className=erro?'erro':''}
+async function derivar(cod){
+  const base=await crypto.subtle.importKey('raw',enc.encode(cod),'HKDF',false,['deriveKey']);
+  const key=await crypto.subtle.deriveKey({name:'HKDF',hash:'SHA-256',salt:enc.encode('braniac-remoto-v1'),info:enc.encode('aes')},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);
+  const topico='braniac-'+hex(await crypto.subtle.digest('SHA-256',enc.encode(cod+'|topico'))).slice(0,32);
+  return {key,topico};
+}
+async function cifrar(key,obj){const iv=crypto.getRandomValues(new Uint8Array(12));
+  const ct=new Uint8Array(await crypto.subtle.encrypt({name:'AES-GCM',iv},key,enc.encode(JSON.stringify(obj))));
+  const o=new Uint8Array(12+ct.length);o.set(iv);o.set(ct,12);return b64(o)}
+async function decifrar(key,txt){const b=unb64(txt);return JSON.parse(dec.decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:b.slice(0,12)},key,b.slice(12))))}
+function esperarIce(pc){return new Promise(ok=>{if(pc.iceGatheringState==='complete')return ok();
+  const f=()=>{if(pc.iceGatheringState==='complete'){pc.removeEventListener('icegatheringstatechange',f);ok()}};
+  pc.addEventListener('icegatheringstatechange',f);setTimeout(ok,6000)})}
+
+const pend=new Map();let seq=0,dc=null;
+function ligarCanal(canal){
+  canal.onmessage=e=>{const m=JSON.parse(e.data),p=pend.get(m.i);if(!p)return;
+    p.partes[m.x]=m.b;p.s=m.s;p.c=m.c;p.n=m.n;p.rec=(p.rec||0)+1;
+    if(p.rec===m.n){pend.delete(m.i);clearTimeout(p.t);p.ok(new Response(unb64(p.partes.join('')),{status:p.s,headers:{'content-type':p.c||'application/octet-stream'}}))}};
+}
+function tunelFetch(url,opt){opt=opt||{};
+  return new Promise((ok,no)=>{if(!dc||dc.readyState!=='open')return no(new TypeError('sem conexao com o notebook'));
+    const u=new URL(String(url&&url.url||url),'https://braniac.local/'),i=++seq;
+    const h=opt.headers||{},ct=(h['Content-Type']||h['content-type']||'');
+    const corpo=opt.body==null?'':b64(enc.encode(typeof opt.body==='string'?opt.body:String(opt.body)));
+    const t=setTimeout(()=>{pend.delete(i);no(new TypeError('o notebook demorou demais'))},300000);
+    pend.set(i,{ok,partes:[],t});
+    dc.send(JSON.stringify({i,m:(opt.method||'GET').toUpperCase(),p:u.pathname+u.search,c:ct,b:corpo}));});
+}
+async function conectar(cod){
+  cod=cod.replace(/[^A-Za-z2-7]/g,'').toUpperCase();
+  if(cod.length!==16)throw new Error('O código tem 16 letras e números.');
+  const {key,topico}=await derivar(cod),sid=hex(crypto.getRandomValues(new Uint8Array(8)));
+  msg('Procurando o notebook…');
+  const pc=new RTCPeerConnection({iceServers:[{urls:STUN}]});
+  dc=pc.createDataChannel('braniac');ligarCanal(dc);
+  const es=new EventSource(SINAL+'/'+topico+'/sse');
+  const resposta=new Promise((ok,no)=>{
+    es.addEventListener('message',async e=>{try{const o=await decifrar(key,JSON.parse(e.data).message);if(o.t==='answer'&&o.sid===sid)ok(o)}catch(_){}});
+    setTimeout(()=>no(new Error('O notebook não respondeu. Confira: Braniac ligado, Acesso remoto ligado e o código certo.')),50000)});
+  await new Promise(r=>{es.onopen=r;setTimeout(r,4000)});
+  await pc.setLocalDescription(await pc.createOffer());await esperarIce(pc);
+  const r=await fetch(SINAL+'/'+topico,{method:'POST',body:await cifrar(key,{t:'offer',sid,sdp:pc.localDescription.sdp,ts:Date.now()/1000})});
+  if(!r.ok)throw new Error('Sem internet para combinar a conexão.');
+  const a=await resposta;es.close();msg('Conectando direto ao notebook…');
+  await pc.setRemoteDescription({type:'answer',sdp:a.sdp});
+  await new Promise((ok,no)=>{if(dc.readyState==='open')return ok();dc.onopen=ok;setTimeout(()=>no(new Error('Não consegui abrir o caminho direto (rede do celular muito fechada). Tente no Wi-Fi.')),30000)});
+  dc.onclose=()=>{try{location.reload()}catch(_){}};
+  return localStorage.setItem('braniac_codigo',cod);
+}
+async function abrirBraniac(){
+  const r=await tunelFetch('/b2');if(!r.ok)throw new Error('O notebook respondeu '+r.status);
+  const html=await r.text();window.fetch=tunelFetch;     // a interface do notebook passa a usar o tunel P2P para tudo
+  document.open();document.write(html);document.close();
+}
+async function iniciar(cod){
+  $('#cod').style.display=$('#ir').style.display='none';$('#anel').style.display='block';$('#intro').style.display='none';
+  try{await conectar(cod);await abrirBraniac()}
+  catch(e){$('#anel').style.display='none';$('#cod').style.display=$('#ir').style.display='';$('#intro').style.display='';msg(e.message||String(e),true);
+    try{localStorage.removeItem('braniac_codigo')}catch(_){}}
+}
+$('#cod').addEventListener('input',e=>{let v=e.target.value.replace(/[^A-Za-z2-7]/g,'').toUpperCase().slice(0,16);e.target.value=v.match(/.{1,4}/g)?.join('-')||''});
+$('#ir').onclick=()=>iniciar($('#cod').value);
+let salvo=null;try{salvo=localStorage.getItem('braniac_codigo')}catch(_){}
+if(salvo)iniciar(salvo);
+})();
+</script></body></html>
