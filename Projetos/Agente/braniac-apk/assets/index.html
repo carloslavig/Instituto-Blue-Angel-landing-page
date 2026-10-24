@@ -74,7 +74,7 @@ async function conectar(cod){
 }
 async function abrirBraniac(){
   const r=await tunelFetch('/b2');if(!r.ok)throw new Error('O notebook respondeu '+r.status);
-  const html=await r.text();window.fetch=tunelFetch;     // a interface do notebook passa a usar o tunel P2P para tudo
+  const html=await r.text();window.fetch=tunelFetch;window.CELULAR=true;     // a interface do notebook passa a usar o tunel P2P para tudo
   document.open();document.write(html);document.close();
 }
 async function iniciar(cod){

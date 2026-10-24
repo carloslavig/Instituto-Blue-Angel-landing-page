@@ -5,7 +5,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
+import android.content.pm.PackageManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import java.io.ByteArrayOutputStream;
@@ -30,7 +32,14 @@ public class MainActivity extends Activity {
         s.setDomStorageEnabled(true);
         s.setMediaPlaybackRequiresUserGesture(false);
         s.setAllowFileAccess(false);
-        web.setWebChromeClient(new WebChromeClient());
+        if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+            requestPermissions(new String[]{android.Manifest.permission.RECORD_AUDIO}, 1);
+        web.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onPermissionRequest(final PermissionRequest r) {   // microfone so para a nossa propria pagina (origem braniac.local)
+                runOnUiThread(() -> { if (r.getOrigin().toString().startsWith("https://braniac.local")) r.grant(r.getResources()); else r.deny(); });
+            }
+        });
         try {
             InputStream in = getAssets().open("index.html");
             ByteArrayOutputStream o = new ByteArrayOutputStream();
