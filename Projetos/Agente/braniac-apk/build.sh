@@ -8,7 +8,7 @@ JDK="/c/Program Files/Java/jdk-26.0.1/bin"
 rm -rf build dist && mkdir -p build/res build/gen build/classes dist
 "$BT/aapt2.exe" compile --dir res -o build/res.zip
 "$BT/aapt2.exe" link -o build/base.apk -I "$JAR" --manifest AndroidManifest.xml -A assets --java build/gen --min-sdk-version 24 --target-sdk-version 34 build/res.zip
-"$JDK/javac.exe" --release 11 -cp "$JAR" -d build/classes build/gen/com/braniac/app/R.java src/com/braniac/app/MainActivity.java
+"$JDK/javac.exe" --release 11 -cp "$JAR" -d build/classes build/gen/com/braniac/app/R.java src/com/braniac/app/MainActivity.java src/com/braniac/app/Chrome.java src/com/braniac/app/Decide.java
 (cd build/classes && "$JDK/jar.exe" cf ../app.jar .)
 "$BT/d8.bat" --release --lib "$(cygpath -w "$JAR")" --min-api 24 --output build build/app.jar
 cp build/base.apk build/unsigned.apk

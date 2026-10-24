@@ -34,12 +34,7 @@ public class MainActivity extends Activity {
         s.setAllowFileAccess(false);
         if (checkSelfPermission(android.Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
             requestPermissions(new String[]{android.Manifest.permission.RECORD_AUDIO}, 1);
-        web.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onPermissionRequest(final PermissionRequest r) {   // microfone so para a nossa propria pagina (origem braniac.local)
-                runOnUiThread(() -> { if (r.getOrigin().toString().startsWith("https://braniac.local")) r.grant(r.getResources()); else r.deny(); });
-            }
-        });
+        web.setWebChromeClient(new Chrome(this));
         try {
             InputStream in = getAssets().open("index.html");
             ByteArrayOutputStream o = new ByteArrayOutputStream();
