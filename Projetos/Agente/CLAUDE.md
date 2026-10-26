@@ -275,4 +275,5 @@ O Jarvis continua sendo a entrada de toda conversa; cada ASSUNTO tem banco próp
 Sultão (loja Líbano), Alma (família), Cabo Tito (Exército/STT), Forja (Braniac), Ada (programação em geral), Ilhéu (Airbnb), Cofre (trabalho/finanças). Assunto novo: o Ollama local propõe e o `criar_assunto` abre banco + agente (máx. 3/dia).
 - `banco.pacote` anexa o bloco do agente certo (só fatos válidos); `banco.consultar` também busca em todos os bancos de assunto; `banco.gravar_fato` espelha cada fato no assunto.
 - Todo fato tem validade: "só hoje" expira às 5h do dia seguinte (a data explícita "Hoje (11/10/2026)" conta daquela data). O curador (thread a cada 30 min) vence o expirado, refaz a ficha e registra no relatório da manhã quando dois fatos se contradizem. Nada é apagado: só marcado como vencido.
-- Ver: `python -m braniac.assuntos` (`--curar` roda o curador agora).
+- Ver: `python -m braniac.assuntos` (`--curar` roda o curador agora; `--agentes` lista os agentes).
+- **O Claude também usa** (não só o Jarvis): antes de afirmar algo sobre loja, família, exército, Airbnb, trabalho ou o Braniac, rode `python -m braniac.assuntos contexto "pergunta"` e use só os fatos válidos que voltarem; o Jarvis tem a ferramenta `listar_agentes`. Fato novo que eu descobrir: `banco.gravar_fato(...)` (espelha no assunto certo, com validade).
