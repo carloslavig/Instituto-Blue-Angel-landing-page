@@ -272,7 +272,7 @@ Janela nativa em Rust/Tauri 2 (`braniac2-app/`, atalho "B.R.A.N.I.A.C 1" na Áre
 ## 12. ASSUNTOS E AGENTES (26/10/2026)
 
 O Jarvis continua sendo a entrada de toda conversa; cada ASSUNTO tem banco próprio (`braniac/data/assuntos/<id>.db`) e um AGENTE responsável (`braniac/assuntos.py`):
-Sultão (loja Líbano), Alma (família), Cabo Tito (Exército/STT), Forja (Braniac), Ilhéu (Airbnb), Cofre (trabalho/finanças). Assunto novo: o Ollama local propõe e o `criar_assunto` abre banco + agente (máx. 3/dia).
+Sultão (loja Líbano), Alma (família), Cabo Tito (Exército/STT), Forja (Braniac), Ada (programação em geral), Ilhéu (Airbnb), Cofre (trabalho/finanças). Assunto novo: o Ollama local propõe e o `criar_assunto` abre banco + agente (máx. 3/dia).
 - `banco.pacote` anexa o bloco do agente certo (só fatos válidos); `banco.consultar` também busca em todos os bancos de assunto; `banco.gravar_fato` espelha cada fato no assunto.
 - Todo fato tem validade: "só hoje" expira às 5h do dia seguinte (a data explícita "Hoje (11/10/2026)" conta daquela data). O curador (thread a cada 30 min) vence o expirado, refaz a ficha e registra no relatório da manhã quando dois fatos se contradizem. Nada é apagado: só marcado como vencido.
 - Ver: `python -m braniac.assuntos` (`--curar` roda o curador agora).
