@@ -21,7 +21,7 @@ def main():
     pr = RAIZ / "loja" / "principal.py"
     if not pr.exists():
         return print("Nao achei loja/principal.py em", RAIZ, "- rode: python aplicar.py CAMINHO_DA_PASTA")
-    for f in ("par_webrtc.py", "par_cli.py"):
+    for f in ("par_webrtc.py", "par_cli.py", "elo_jarvis.py"):
         shutil.copy2(AQUI / f, RAIZ / "loja" / f)
     s = pr.read_text(encoding="utf-8")
     if "par_webrtc" in s:
