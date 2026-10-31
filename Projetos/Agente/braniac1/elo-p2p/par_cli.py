@@ -19,6 +19,9 @@ def main(a):
         elif cmd == "painel":
             p.permitir_painel(not (len(a) > 1 and a[1].lower() in ("nao", "não", "false", "0")))
             print("Painel:", "liberado para o Braniac do Carlos (so leitura)" if p.info()["painel"] else "bloqueado")
+        elif cmd == "painel_porta":
+            p.definir_painel_porta(a[1])
+            print("O Braniac do Carlos passa a ver a tela da porta", a[1])
         elif cmd == "falar":
             print("Resposta:", "pong" if p.ping() else "sem resposta")
         else:

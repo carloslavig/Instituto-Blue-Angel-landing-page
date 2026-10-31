@@ -106,6 +106,9 @@ class Par:
             raise ParErro("Ainda nao ha par: gere ou cole um codigo antes.")
         self._gravar({**d, "painel": bool(sim)})
 
+    def definir_painel_porta(self, porta):
+        self._gravar({**self._ler(), "painel_porta": int(porta)})
+
     def info(self):
         d = self._ler()
         return {**self.estado, "par": d.get("par", ""), "pareado": bool(d.get("codigo")), "recebe": bool(d.get("recebe")), "painel": bool(d.get("painel"))}
@@ -121,10 +124,12 @@ class Par:
 
     def _painel_local(self, path):
         """GET somente leitura no painel local. Devolve (status, content-type, bytes)."""
-        if not self.painel_base or not path.startswith("/") or ".." in path or "//" in path or "\\" in path or len(path) > 300:
+        porta = self._ler().get("painel_porta")      # o dono escolhe qual tela da loja o par ve (par_cli painel_porta N); sem isso, o painel padrao
+        base = f"http://127.0.0.1:{int(porta)}" if str(porta).isdigit() else self.painel_base
+        if not base or not path.startswith("/") or ".." in path or "//" in path or "\\" in path or len(path) > 300:
             return 404, "text/plain", b"nao encontrado"
         try:
-            with urllib.request.urlopen(self.painel_base + path, timeout=15) as r:
+            with urllib.request.urlopen(base + path, timeout=15) as r:
                 return r.status, r.headers.get("Content-Type", "application/octet-stream"), r.read(MAX_PAINEL)
         except urllib.error.HTTPError as e:
             return e.code, "text/plain", b""
